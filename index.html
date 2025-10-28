@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secret Message</title>
+<title>Secret Video Message</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     background: linear-gradient(135deg, #ffe6eb, #ffd6f5);
     overflow: hidden;
@@ -15,6 +16,8 @@
     align-items: center;
     justify-content: center;
   }
+
+  /* Password Page */
   #passwordPage {
     text-align: center;
     position: relative;
@@ -38,62 +41,50 @@
     cursor: pointer;
   }
   button:hover { background: #ff3366; }
+
   #error {
     color: red;
     display: none;
     margin-top: 10px;
   }
+
+  /* Video Page */
   #messagePage {
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
     width: 100vw;
     height: 100vh;
     animation: fadeIn 1s ease forwards;
     z-index: 1;
   }
+
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
-  .message {
-    font-size: 60px;
-    font-weight: bold;
-    color: #ff0066;
-    animation: popIn 1s ease forwards;
-    text-shadow: 0 0 10px #fff, 0 0 20px #ff0066;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+  video {
+    width: 90%;
+    max-width: 700px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 0, 100, 0.4);
   }
-  @keyframes popIn {
-    0% { transform: scale(0); opacity: 0; }
-    70% { transform: scale(1.3); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .bigHeart {
-    font-size: 60px;
-    display: inline-block;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    25% { transform: translateY(-2em); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(-1em); }
-  }
+
+  /* Floating Background Hearts */
   .heart {
     position: absolute;
     color: rgba(255, 0, 100, 0.3);
     font-size: 20px;
     animation: floatHearts 10s linear infinite;
   }
+
   @keyframes floatHearts {
     0% { transform: translateY(100vh) scale(1); opacity: 1; }
     100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
   }
+
   .petal {
     position: absolute;
     top: 0;
@@ -104,20 +95,30 @@
 </style>
 </head>
 <body>
+
+<!-- PASSWORD PAGE -->
 <div id="passwordPage">
   <h2>Enter Password 💌</h2><br>
   <input type="password" id="passwordInput" placeholder="Enter password">
   <button onclick="checkPassword()">Unlock</button>
   <p id="error">Wrong password!</p>
 </div>
+
+<!-- VIDEO PAGE -->
 <div id="messagePage">
-  <div class="message">HI! <span class="bigHeart">❤️</span></div>
+  <video controls autoplay>
+    <source src="secret.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
+
 <script>
 const correctPassword = "9302025";
+
 function checkPassword() {
   const entered = document.getElementById("passwordInput").value;
   const error = document.getElementById("error");
+
   if (entered === correctPassword) {
     error.style.display = "none";
     centerExplosionPetals();
@@ -130,6 +131,8 @@ function checkPassword() {
     error.style.display = "block";
   }
 }
+
+// Floating background hearts
 function createHearts() {
   for (let i = 0; i < 15; i++) {
     const heart = document.createElement("div");
@@ -143,10 +146,13 @@ function createHearts() {
   }
   setTimeout(createHearts, 2000);
 }
+
+// Center explosion emoji petals
 function centerExplosionPetals() {
   const emojis = ['🌹','💗','💖'];
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
+
   for (let i = 0; i < 120; i++) {
     const petal = document.createElement('div');
     petal.classList.add('petal');
@@ -155,12 +161,15 @@ function centerExplosionPetals() {
     petal.style.fontSize = (20 + Math.random() * 25) + 'px';
     petal.style.opacity = 0.7 + Math.random() * 0.3;
     petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
     document.body.appendChild(petal);
+
     const angle = Math.random() * 2 * Math.PI;
     const distance = 400 + Math.random() * 200;
     const x = Math.cos(angle) * distance;
     const y = Math.sin(angle) * distance;
     const rotation = 720 * Math.random();
+
     petal.animate([
       { transform: 'translate(0, 0) rotate(0deg)', opacity: petal.style.opacity },
       { transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`, opacity: 0 }
@@ -169,9 +178,11 @@ function centerExplosionPetals() {
       easing: 'ease-out',
       fill: 'forwards'
     });
+
     setTimeout(() => petal.remove(), 2000);
   }
 }
 </script>
+
 </body>
 </html>
