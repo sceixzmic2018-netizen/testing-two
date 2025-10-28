@@ -66,10 +66,10 @@
   }
 
   video {
-    width: 90%;
-    max-width: 700px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(255, 0, 100, 0.4);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
   }
 
   /* Floating Background Hearts */
@@ -106,7 +106,7 @@
 
 <!-- VIDEO PAGE -->
 <div id="messagePage">
-  <video controls autoplay>
+  <video id="secretVideo" autoplay muted playsinline controls>
     <source src="secret.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -126,6 +126,14 @@ function checkPassword() {
       document.getElementById("passwordPage").style.display = "none";
       document.getElementById("messagePage").style.display = "flex";
       createHearts();
+
+      const video = document.getElementById("secretVideo");
+      video.muted = false; // try to unmute for full experience
+      video.play().catch(() => {
+        // if browser blocks autoplay with sound
+        video.muted = true;
+        video.play();
+      });
     }, 2000);
   } else {
     error.style.display = "block";
