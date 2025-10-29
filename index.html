@@ -52,7 +52,7 @@
   /* Password box */
   #passwordBox {
     position: absolute;
-    top: 60%; /* adjust this to move the login box up/down */
+    top: 60%; /* adjust this to move login box higher/lower */
     transform: translateY(-50%);
     background: rgba(255,255,255,0.5);
     backdrop-filter: blur(6px);
@@ -114,15 +114,19 @@
     width: 100vw;
     height: 100vh;
     background: #000;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  /* Video auto-fit but not stretched */
   #messagePage video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* show full video without cropping */
-    background-color: black; /* fill space with black */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* keeps full video visible */
+    background-color: black; /* fills leftover space */
   }
 
   .heart {
@@ -262,4 +266,20 @@ function createHearts() {
 
 function centerExplosionPetals() {
   const emojis = ['🌹','💗','💖'];
-  const centerX = w
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  for (let i = 0; i < 100; i++) {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.style.left = centerX + 'px';
+    petal.style.top = centerY + 'px';
+    petal.style.fontSize = (20 + Math.random() * 25) + 'px';
+    petal.style.opacity = 0.7 + Math.random() * 0.3;
+    petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    document.body.appendChild(petal);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 400 + Math.random() * 200;
+    const x = Math.co
