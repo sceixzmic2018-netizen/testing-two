@@ -31,7 +31,7 @@
   }
 
   /* Counter box */
-  #counterBox {
+  .counterBox {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
     padding: 15px 20px;
@@ -41,9 +41,9 @@
     color: white;
     font-weight: 600;
     min-width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
-  #counterBox span {
+  .counterBox span {
     display: block;
     font-size: 18px;
     margin-top: 6px;
@@ -143,10 +143,16 @@
 
 <!-- PASSWORD PAGE -->
 <div id="passwordPage">
-  <!-- Counter at the top -->
-  <div id="counterBox">
+  <!-- Been Together Counter -->
+  <div class="counterBox">
     <div>Been Together:</div>
-    <span id="counter">0y | 0m | 0d | 0h | 0m | 0s</span>
+    <span id="counterTogether">0y | 0m | 0d | 0h | 0m | 0s</span>
+  </div>
+
+  <!-- Missing You Counter -->
+  <div class="counterBox">
+    <div>Missing You:</div>
+    <span id="counterMissing">0y | 0m | 0d | 0h | 0m | 0s</span>
   </div>
 
   <!-- Password box -->
@@ -167,26 +173,37 @@
 </div>
 
 <script>
-const targetDate = new Date("2025-09-30T00:00:00");
+const togetherDate = new Date("2025-09-30T09:56:00");
+const missingDate = new Date("2025-09-11T23:00:00");
 
-function updateCounter() {
-    const now = new Date();
-    let diff = now - targetDate;
-    if(diff < 0) diff = 0;
+function formatCounter(diff, startDate) {
+  const now = new Date();
+  const years = now.getFullYear() - startDate.getFullYear();
+  const months = now.getMonth() - startDate.getMonth();
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
 
-    const years = now.getFullYear() - targetDate.getFullYear();
-    const months = now.getMonth() - targetDate.getMonth();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("counter").innerText =
-        `${years}y | ${months}m | ${days}d | ${hours}h | ${minutes}m | ${seconds}s`;
+  return `${years}y | ${months}m | ${days}d | ${hours}h | ${minutes}m | ${seconds}s`;
 }
 
-setInterval(updateCounter, 1000);
-updateCounter();
+function updateCounters() {
+  const now = new Date();
+
+  // Been Together counter
+  let diffTogether = now - togetherDate;
+  if (diffTogether < 0) diffTogether = 0;
+  document.getElementById("counterTogether").innerText = formatCounter(diffTogether, togetherDate);
+
+  // Missing You counter
+  let diffMissing = now - missingDate;
+  if (diffMissing < 0) diffMissing = 0;
+  document.getElementById("counterMissing").innerText = formatCounter(diffMissing, missingDate);
+}
+
+setInterval(updateCounters, 1000);
+updateCounters();
 
 // Password check
 const correctPassword = "9302025";
