@@ -6,7 +6,7 @@
 <title>Secret Video Message</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; width: 100%; }
+  html, body { height: 100%; }
   body {
     font-family: "Poppins", sans-serif;
     height: 100vh;
@@ -34,50 +34,48 @@
   .counterBox {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
-    padding: 1rem 1.3rem;
+    padding: 15px 20px;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(255,0,100,0.2);
     text-align: center;
     color: white;
     font-weight: 600;
-    width: 80%;
-    max-width: 350px;
-    margin-bottom: 0.6rem;
+    min-width: 300px;
+    margin-bottom: 8px;
   }
   .counterBox span {
     display: block;
-    font-size: 1.1rem;
+    font-size: 18px;
     margin-top: 6px;
-    word-wrap: break-word;
   }
 
   /* Password box */
   #passwordBox {
     position: absolute;
-    top: 150%;
+    top: 60%; /* adjust this to move the login box up/down */
     transform: translateY(-50%);
     background: rgba(255,255,255,0.5);
     backdrop-filter: blur(6px);
-    padding: 1.3rem 1.4rem;
+    padding: 22px 24px;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(255,0,100,0.2);
-    width: 85%;
-    max-width: 300px;
+    width: 280px;
+    max-width: 85%;
     text-align: center;
     color: white;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 20px;
     color: white;
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
     font-weight: 600;
   }
 
   input {
     width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
+    padding: 12px;
+    font-size: 16px;
     border-radius: 10px;
     border: 1px solid #ffffff88;
     outline: none;
@@ -92,29 +90,29 @@
 
   button {
     display: inline-block;
-    margin-top: 0.8rem;
-    padding: 0.6rem 1.2rem;
+    margin-top: 12px;
+    padding: 10px 18px;
     background: linear-gradient(90deg, #ff6699, #ff4d88);
     color: #fff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 16px;
   }
   button:hover { filter: brightness(0.95); }
 
   #error {
     color: red;
-    margin-top: 0.6rem;
+    margin-top: 10px;
     display: none;
-    font-size: 0.9rem;
+    font-size: 14px;
   }
 
   /* Message (video) page */
   #messagePage {
     display: none;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: #000;
     align-items: center;
     justify-content: center;
@@ -123,7 +121,8 @@
   #messagePage video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* show full video without cropping */
+    background-color: black; /* fill space with black */
   }
 
   .heart {
@@ -138,41 +137,23 @@
     100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
   }
 
-  .petal { position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none; }
-
-  /* Responsive adjustments 📱 */
-  @media (max-width: 768px) {
-    .counterBox {
-      width: 90%;
-      font-size: 0.95rem;
-    }
-    #passwordBox {
-      top: 55%;
-      padding: 1rem;
-      width: 90%;
-    }
-    h2 {
-      font-size: 1rem;
-    }
-    input, button {
-      font-size: 0.9rem;
-    }
+  .petal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    pointer-events: none;
   }
 
-  @media (max-width: 480px) {
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
     .counterBox {
-      width: 90%;
-      padding: 0.8rem;
+      min-width: 250px;
+      font-size: 14px;
     }
     #passwordBox {
-      top: 50%;
-      padding: 0.9rem;
-    }
-    input {
-      padding: 0.7rem;
-    }
-    h2 {
-      font-size: 0.95rem;
+      width: 90%;
+      top: 58%;
     }
   }
 </style>
@@ -181,16 +162,19 @@
 
 <!-- PASSWORD PAGE -->
 <div id="passwordPage">
+  <!-- Been Together Counter -->
   <div class="counterBox">
     <div>Been Together:</div>
     <span id="counterTogether">0y | 0m | 0d | 0h | 0m | 0s</span>
   </div>
 
+  <!-- Missing You Counter -->
   <div class="counterBox">
     <div>Missing You:</div>
     <span id="counterMissing">0y | 0m | 0d | 0h | 0m | 0s</span>
   </div>
 
+  <!-- Password box -->
   <div id="passwordBox">
     <h2>Enter Password Langga</h2>
     <input type="text" id="passwordInput" placeholder="hint: Date nung sinagot mo langga 💌">
@@ -219,13 +203,11 @@ function formatCounter(diff, startDate) {
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
-
   return `${years}y | ${months}m | ${days}d | ${hours}h | ${minutes}m | ${seconds}s`;
 }
 
 function updateCounters() {
   const now = new Date();
-
   let diffTogether = now - togetherDate;
   if (diffTogether < 0) diffTogether = 0;
   document.getElementById("counterTogether").innerText = formatCounter(diffTogether, togetherDate);
@@ -280,38 +262,4 @@ function createHearts() {
 
 function centerExplosionPetals() {
   const emojis = ['🌹','💗','💖'];
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-
-  for (let i = 0; i < 100; i++) {
-    const petal = document.createElement('div');
-    petal.classList.add('petal');
-    petal.style.left = centerX + 'px';
-    petal.style.top = centerY + 'px';
-    petal.style.fontSize = (20 + Math.random() * 25) + 'px';
-    petal.style.opacity = 0.7 + Math.random() * 0.3;
-    petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-
-    document.body.appendChild(petal);
-
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = 400 + Math.random() * 200;
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance;
-    const rotation = 720 * Math.random();
-
-    petal.animate([
-      { transform: 'translate(0, 0) rotate(0deg)', opacity: petal.style.opacity },
-      { transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`, opacity: 0 }
-    ], {
-      duration: 2000,
-      easing: 'ease-out',
-      fill: 'forwards'
-    });
-
-    setTimeout(() => petal.remove(), 2000);
-  }
-}
-</script>
-</body>
-</html>
+  const centerX = w
