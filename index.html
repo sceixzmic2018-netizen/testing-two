@@ -7,14 +7,13 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
-
   body {
     font-family: "Poppins", sans-serif;
     height: 100vh;
     overflow: hidden;
     background: linear-gradient(135deg, #ffe6eb, #ffd6f5);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
   }
 
@@ -31,42 +30,29 @@
     padding-top: 2vh;
   }
 
-  /* Counter box container */
-  #counters {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 40px; /* adjusted higher */
-  }
-
-  .counter {
-    background: rgba(255,255,255,0.85);
+  /* Counter box */
+  .counterBox {
+    background: rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
-    padding: 16px 26px;
+    padding: 15px 20px;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(255,0,100,0.2);
     text-align: center;
-    min-width: 300px;
-  }
-
-  .counter h2 {
-    font-size: 18px;
     color: white;
     font-weight: 600;
-    margin-bottom: 5px;
+    min-width: 300px;
+    margin-bottom: 15px;
   }
-
-  .counter p {
-    font-size: 16px;
-    color: white;
-    font-weight: 500;
+  .counterBox span {
+    display: block;
+    font-size: 18px;
+    margin-top: 6px;
   }
 
   /* Password box */
   #passwordBox {
     position: absolute;
-    top: 45%;
+    top: 60%;
     transform: translateY(-50%);
     background: rgba(255,255,255,0.5);
     backdrop-filter: blur(6px);
@@ -157,17 +143,16 @@
 
 <!-- PASSWORD PAGE -->
 <div id="passwordPage">
-  <!-- Counters -->
-  <div id="counters">
-    <div class="counter" id="beenTogether">
-      <h2>Been Together:</h2>
-      <p id="togetherTime">0y | 0m | 0d | 0h | 0m | 0s</p>
-    </div>
+  <!-- Been Together Counter -->
+  <div class="counterBox">
+    <div>Been Together:</div>
+    <span id="counterTogether">0y | 0m | 0d | 0h | 0m | 0s</span>
+  </div>
 
-    <div class="counter" id="missingYou">
-      <h2>Missing You:</h2>
-      <p id="missingTime">0y | 0m | 0d | 0h | 0m | 0s</p>
-    </div>
+  <!-- Missing You Counter -->
+  <div class="counterBox">
+    <div>Missing You:</div>
+    <span id="counterMissing">0y | 0m | 0d | 0h | 0m | 0s</span>
   </div>
 
   <!-- Password box -->
@@ -188,14 +173,11 @@
 </div>
 
 <script>
-const togetherStart = new Date("2025-09-30T00:00:00");
-const missingStart = new Date("2025-09-11T23:00:00");
+const togetherDate = new Date("2025-09-30T09:56:00");
+const missingDate = new Date("2025-09-11T23:00:00");
 
-function calculateTimeDiff(startDate) {
+function formatCounter(diff, startDate) {
   const now = new Date();
-  let diff = now - startDate;
-  if (diff < 0) diff = 0;
-
   const years = now.getFullYear() - startDate.getFullYear();
   const months = now.getMonth() - startDate.getMonth();
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -207,9 +189,19 @@ function calculateTimeDiff(startDate) {
 }
 
 function updateCounters() {
-  document.getElementById("togetherTime").innerText = calculateTimeDiff(togetherStart);
-  document.getElementById("missingTime").innerText = calculateTimeDiff(missingStart);
+  const now = new Date();
+
+  // Been Together counter
+  let diffTogether = now - togetherDate;
+  if (diffTogether < 0) diffTogether = 0;
+  document.getElementById("counterTogether").innerText = formatCounter(diffTogether, togetherDate);
+
+  // Missing You counter
+  let diffMissing = now - missingDate;
+  if (diffMissing < 0) diffMissing = 0;
+  document.getElementById("counterMissing").innerText = formatCounter(diffMissing, missingDate);
 }
+
 setInterval(updateCounters, 1000);
 updateCounters();
 
@@ -240,7 +232,7 @@ function checkPassword() {
   }
 }
 
-// Hearts & petals
+// Hearts & petals logic
 function createHearts() {
   for (let i = 0; i < 15; i++) {
     const heart = document.createElement("div");
