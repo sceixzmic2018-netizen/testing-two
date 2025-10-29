@@ -27,30 +27,34 @@
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    padding-top: 5vh; /* space for counter at top */
+    padding-top: 5vh;
   }
 
   /* Counter box */
   #counterBox {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
-    padding: 20px 28px;
+    padding: 15px 20px;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(255,0,100,0.2);
     text-align: center;
-    font-size: 18px;
-    color: #ff4d88;
+    color: white;
     font-weight: 600;
     min-width: 300px;
     margin-bottom: 20px;
+  }
+  #counterBox span {
+    display: block;
+    font-size: 18px;
+    margin-top: 6px;
   }
 
   /* Password box */
   #passwordBox {
     position: absolute;
-    top: 60%; /* slightly below middle */
+    top: 60%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,0.5); /* 50% transparent */
+    background: rgba(255,255,255,0.5);
     backdrop-filter: blur(6px);
     padding: 22px 24px;
     border-radius: 16px;
@@ -58,7 +62,7 @@
     width: 280px;
     max-width: 85%;
     text-align: center;
-    color: white; /* font color white */
+    color: white;
   }
 
   h2 {
@@ -141,12 +145,13 @@
 <div id="passwordPage">
   <!-- Counter at the top -->
   <div id="counterBox">
-    Been Together: <span id="counter">0y | 0m | 0d | 0h | 0m | 0s</span>
+    <div>Been Together:</div>
+    <span id="counter">0y | 0m | 0d | 0h | 0m | 0s</span>
   </div>
 
   <!-- Password box -->
   <div id="passwordBox">
-    <h2>Enter Password Langga 💖</h2>
+    <h2>Enter Password Langga</h2>
     <input type="text" id="passwordInput" placeholder="hint: Date nung sinagot mo langga 💌">
     <button onclick="checkPassword()">Oo ulit! ❤️</button>
     <p id="error">Mali yata, langga 😅</p>
