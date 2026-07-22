@@ -23,12 +23,10 @@
     height: 100%;
     background: url('Login.png') no-repeat center center/cover;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     position: relative;
-    padding-top: 5vh;
-  }
+}
 
   
 
@@ -85,8 +83,7 @@
     color:transparent;
 }
 
-  button{
-
+  button {
     position:absolute;
 
     left:42px;
@@ -102,18 +99,18 @@
     color:transparent;
 
     cursor:pointer;
-
-    margin-top:0;
-    padding:0;
 }
-  button:hover { filter: brightness(0.95); }
+ 
 
   #error {
-    color: red;
-    margin-top: 10px;
-    display: none;
-    font-size: 14px;
-  }
+    position:absolute;
+    top:405px;
+    width:100%;
+    text-align:center;
+    color:red;
+    display:none;
+    font-size:14px;
+}
 
   /* Message (video) page */
   #messagePage {
@@ -154,8 +151,8 @@
 
   <!-- Password box -->
   <div id="passwordBox">
-    <h2>Password Langga</h2>
-    <input type="text" id="passwordInput" placeholder="">
+    <!-- Password title is already in image -->
+    <input type="password" id="passwordInput" placeholder="">
     <button onclick="checkPassword()">OK</button>
     <p id="error">Mali 😭</p>
   </div>
@@ -163,7 +160,7 @@
 
 <!-- MESSAGE PAGE -->
 <div id="messagePage">
-  <video id="secretVideo" autoplay muted playsinline controls>
+  <video id="secretVideo" playsinline controls>
     <source src="secret.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
