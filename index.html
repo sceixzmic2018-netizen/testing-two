@@ -52,31 +52,36 @@
     display:none;
 }
 
-  #passwordInput{
-
+#passwordInput{
     position:absolute;
-
     left:38px;
     top:240px;
 
     width:265px;
     height:52px;
 
-    background:transparent;
+    background:rgba(255,255,255,0.15);
 
-    border:none;
+    border:3px solid #ff8fb3;
+    border-radius:15px;
 
     outline:none;
 
     text-align:center;
-
     font-size:22px;
-
     color:#d35f8d;
-
     font-weight:600;
 
-    padding:0;
+    animation: glowBorder 2s infinite alternate;
+}
+
+@keyframes glowBorder {
+    0% {
+        box-shadow:0 0 5px #ff8fb3;
+    }
+    100% {
+        box-shadow:0 0 20px #ff4d88;
+    }
 }
 
 #passwordInput::placeholder{
