@@ -153,9 +153,21 @@ touch-action: none;
 }
 
 #countdown{
-  font-size:32px;
-  font-weight:bold;
-  margin-top:10px;
+    margin-top:25px;
+    font-size:64px;
+    font-weight:bold;
+    font-family:monospace;
+    letter-spacing:6px;
+    color:#fff;
+    text-shadow:0 0 15px rgba(255,255,255,.5);
+}
+
+#countdownLabel{
+    margin-top:10px;
+    font-size:16px;
+    letter-spacing:6px;
+    color:#fff;
+    opacity:.9;
 }
 
 </style>
@@ -163,8 +175,12 @@ touch-action: none;
 <body>
 
 <div id="blurOverlay">
-    <h2>🎁 Surprise Unlocks In</h2>
-    <div id="countdown"></div>
+    <h2>👀 Curiosity detected!</h2>
+    <p>You're a little early...</p>
+    <p>Come back when the countdown reaches zero. ❤️</p>
+
+    <div id="countdown">00:00:00</div>
+    <div id="countdownLabel">HOURS&nbsp;&nbsp;&nbsp;MINUTES&nbsp;&nbsp;&nbsp;SECONDS</div>
 </div>
 
 <!-- PASSWORD PAGE -->
@@ -268,29 +284,35 @@ function centerExplosionPetals() {
   }
 }
 
-function updateCountdown() {
+</script>
 
-    const unlock = new Date(2026, 6, 24, 19, 24, 0).getTime();
-    const now = new Date().getTime();
+<script>
+function updateCountdown() {
+    const unlock = new Date("2026-07-24T19:24:00").getTime();
+    const now = Date.now();
     const diff = unlock - now;
 
     const overlay = document.getElementById("blurOverlay");
     const countdown = document.getElementById("countdown");
 
-    if(diff <= 0){
-        overlay.style.display="none";
+    if (diff <= 0) {
+        overlay.style.display = "none";
         return;
     }
 
-    const h=Math.floor(diff/(1000*60*60));
-    const m=Math.floor((diff%(1000*60*60))/(1000*60));
-    const s=Math.floor((diff%(1000*60))/1000);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-    countdown.innerHTML=`${h}h ${m}m ${s}s`;
+    countdown.textContent =
+        `${String(hours).padStart(2, '0')}:` +
+        `${String(minutes).padStart(2, '0')}:` +
+        `${String(seconds).padStart(2, '0')}`;
 }
 
 updateCountdown();
-setInterval(updateCountdown,1000);
+setInterval(updateCountdown, 1000);
 </script>
+
 </body>
 </html>
