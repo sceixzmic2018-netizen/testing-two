@@ -29,51 +29,39 @@
   
 
   /* Password box */
- #passwordBox{
+#passwordBox{
     position:absolute;
-
     top:58%;
     left:50%;
-
     transform:translate(-50%,-50%);
 
-    width:340px;
-    height:470px;
+    width:320px;
+    padding:25px 20px;
 
-    background:transparent;
-    box-shadow:none;
-    backdrop-filter:none;
-    padding:0;
+    background:rgba(255,245,248,0.92);   /* Pinkish white */
+    border-radius:28px;
+    box-shadow:0 10px 25px rgba(255,120,170,.25);
+    backdrop-filter:blur(8px);
 }
 
-  h2{
-    display:none;
-}
-
+/* Password input */
 #passwordInput{
-
-    position:absolute;
-
-    left:38px;
-    top:300px;
+    position:relative;
+    display:block;
+    margin:220px auto 0;      /* Auto center */
 
     width:230px;
-    height:40px;
+    height:42px;
 
-    background:rgba(255,255,255,0.15);
-
-    border:1px solid #ff8fb3;
-
-    border-radius:20px;
+    background:#fff7fa;       /* Light pink */
+    border:2px solid #ffb8d0;
+    border-radius:22px;
 
     outline:none;
-
     text-align:center;
 
     font-size:22px;
-
     color:#d35f8d;
-
     font-weight:600;
 }
 
